@@ -19,11 +19,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MP7:Main";
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.GET,
-                    "https://newsapi.org/v2/everything?q=bitcoin&apiKey="
+                    "https://newsapi.org/v2/everything?q=terrorist&sortBy=popularity&sortBypublishedAt&apiKey="
                             + BuildConfig.API_KEY,
                     new JSONObject(),
                     new Response.Listener<JSONObject>() {
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                             try {
                                 Log.d(TAG, response.toString(2));
                                 final TextView titles = findViewById(R.id.titles);
-                                titles.setText(response.toString());
+                                titles.setText(editText(response));
                             } catch (JSONException ignored) { }
                         }
                     }, new Response.ErrorListener() {
@@ -74,14 +75,32 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    String editText(final String json) {
+    String editText(JSONObject n) {
         JsonParser parser = new JsonParser();
-        JsonObject object = parser.parse(json).getAsJsonObject();
-        JsonArray array = object.getAsJsonArray("articles");
-        JsonObject result = array.get(0).getAsJsonObject();
-        String last = result.get("description").getAsString();
+        String result = n.toString();
+        JsonObject first = parser.parse(result).getAsJsonObject();
+        JsonArray array = first.getAsJsonArray("articles");
+        String[] array2 = new String[18];
+        for (int i = 0; i < array2.length; i++) {
+            if (i % 3 == 0) {
+                JsonObject second = array.get(i).getAsJsonObject();
+                array2[i] = second.get("title").getAsString();
+            } else if (i % 3 == 1) {
+                JsonObject second = array.get(i).getAsJsonObject();
+                array2[i] = second.get("description").getAsString();
+            } else {
+                JsonObject second = array.get(i).getAsJsonObject();
+                array2[i] = second.get("url").getAsString();
+            }
+
+        }
+        StringBuffer sb = new StringBuffer();
+        for (String a : array2) {
+            sb = sb.append(a);
+            sb = sb.append("\n");
+        }
         //trim "\"
-        return last;
+        return sb.toString();
     }
 
 }
