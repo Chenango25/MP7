@@ -51,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
         try {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.GET,
-                    "https://newsapi.org/v2/everything?q=terrorist&sortBy=popularity&sortBypublishedAt&apiKey="
+                    "https://newsapi.org/v2/everything?q=life" +
+                            "&sortBy=popularity&sortBypublishedAt&apiKey="
                             + BuildConfig.API_KEY,
                     new JSONObject(),
                     new Response.Listener<JSONObject>() {
