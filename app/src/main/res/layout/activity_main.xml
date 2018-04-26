@@ -9,6 +9,7 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:autoLink="web"
         android:id="@+id/titles"
         android:layout_width="match_parent"
         android:layout_height="400px"

@@ -19,6 +19,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.GsonBuilder;
+
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MP7:Main";
     private static RequestQueue requestQueue;
@@ -33,26 +39,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(final View v) {
                 Log.d(TAG, "getArticle button clicked");
-                startArticle("hello");
+                startArticle();
             }
         });
     }
     // nytimes/ttle something like this
     // enter query: return results from different sources ex:BBC NYtimes
     // trys to throw out invalid input, return msg in toast
-    void startArticle(String query) {
+    void startArticle() {
         try {
-            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.GET,
-                    "'https://newsapi.org/v2/everything?"
-                            + "q=" + query + "&"
-                            + "from=" + "" + "&"//calender
-                            + "sortBy=popularity&"
+                    "https://newsapi.org/v2/everything?q=bitcoin&apiKey="
                             + BuildConfig.API_KEY,
-                    new JSONArray(),
-                    new Response.Listener<JSONArray>() {
+                    new JSONObject(),
+                    new Response.Listener<JSONObject>() {
                         @Override
-                        public void onResponse(final JSONArray response) {
+                        public void onResponse(final JSONObject response) {
                             Log.d(TAG, response.toString());
                             try {
                                 Log.d(TAG, response.toString(2));
@@ -66,9 +69,19 @@ public class MainActivity extends AppCompatActivity {
                     Log.e(TAG, error.toString());
                 }
             });
-            requestQueue.add(jsonArrayRequest);
+            requestQueue.add(jsonObjectRequest);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    String editText(final String json) {
+        JsonParser parser = new JsonParser();
+        JsonObject object = parser.parse(json).getAsJsonObject();
+        JsonArray array = object.getAsJsonArray("articles");
+        JsonObject result = array.get(0).getAsJsonObject();
+        String last = result.get("description").getAsString();
+        //trim "\"
+        return last;
+    }
+
 }
