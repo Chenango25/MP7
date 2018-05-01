@@ -41,11 +41,12 @@ public class MainActivity extends AppCompatActivity {
         final Button getArticle = findViewById(R.id.getArticle);
         final EditText topic = findViewById(R.id.Topic);
         final EditText date = findViewById(R.id.Date);
+        Log.d(TAG, "hihihi");
         getArticle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 Log.d(TAG, "getArticle button clicked");
-                startArticle(topic.toString(), date.toString());
+                startArticle(topic.getText().toString(), date.getText().toString());
             }
         });
     }
@@ -56,9 +57,9 @@ public class MainActivity extends AppCompatActivity {
         try {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.GET,
-                    "https://newsapi.org/v2/everything?q=" + topic + "&from=" + date +
-                            "&sortBy=popularity&sortBypublishedAt&apiKey="
-                            + BuildConfig.API_KEY,
+                   "https://newsapi.org/v2/everything?q=" + topic + "&from=" + date
+                           + "&sortBy=popularity&apiKey="
+                           + BuildConfig.API_KEY,
                     new JSONObject(),
                     new Response.Listener<JSONObject>() {
                         @Override
@@ -66,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
                             Log.d(TAG, response.toString());
                             try {
                                 Log.d(TAG, response.toString(2));
-                                final EditText titles = findViewById(R.id.Topic);
-                                titles.setText(editText(response));
+                                final TextView context = findViewById(R.id.context);
+                                context.setText(editText(response));
                             } catch (JSONException ignored) { }
                         }
                     }, new Response.ErrorListener() {
