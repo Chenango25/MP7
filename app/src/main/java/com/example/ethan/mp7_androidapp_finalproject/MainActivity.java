@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this);
         setContentView(R.layout.activity_main);
         final Button getArticle = findViewById(R.id.getArticle);
-        final TextView topic = findViewById(R.id.Topic);
+        final EditText topic = findViewById(R.id.Topic);
         final EditText date = findViewById(R.id.Date);
         getArticle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.d(TAG, response.toString());
                             try {
                                 Log.d(TAG, response.toString(2));
-                                final TextView titles = findViewById(R.id.titles);
+                                final EditText titles = findViewById(R.id.Topic);
                                 titles.setText(editText(response));
                             } catch (JSONException ignored) { }
                         }
