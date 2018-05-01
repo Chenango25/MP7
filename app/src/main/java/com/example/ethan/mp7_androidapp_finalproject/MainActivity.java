@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -19,12 +20,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
+
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MP7:Main";
@@ -36,22 +39,24 @@ public class MainActivity extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this);
         setContentView(R.layout.activity_main);
         final Button getArticle = findViewById(R.id.getArticle);
+        final TextView topic = findViewById(R.id.Topic);
+        final EditText date = findViewById(R.id.Date);
         getArticle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 Log.d(TAG, "getArticle button clicked");
-                startArticle();
+                startArticle(topic.toString(), date.toString());
             }
         });
     }
     // nytimes/ttle something like this
     // enter query: return results from different sources ex:BBC NYtimes
     // trys to throw out invalid input, return msg in toast
-    void startArticle() {
+    void startArticle(String topic, String date) {
         try {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.GET,
-                    "https://newsapi.org/v2/everything?q=life" +
+                    "https://newsapi.org/v2/everything?q=" + topic + "&from=" + date +
                             "&sortBy=popularity&sortBypublishedAt&apiKey="
                             + BuildConfig.API_KEY,
                     new JSONObject(),
