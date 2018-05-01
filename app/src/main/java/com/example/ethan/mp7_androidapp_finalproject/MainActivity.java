@@ -102,14 +102,14 @@ public class MainActivity extends AppCompatActivity {
             if (i % 3 == 0) {
                 JsonObject second = array.get(i).getAsJsonObject();
                 StringBuffer temp = new StringBuffer();
-                temp = temp.append("Title:");
+                temp = temp.append("Title: ");
                 temp = temp.append(second.get("title").getAsString());
                 temp = temp.append(intent);
                 array2[i] = temp.toString();
             } else if (i % 3 == 1) {
                 JsonObject second = array.get(i).getAsJsonObject();
                 StringBuffer temp2 = new StringBuffer();
-                temp2 = temp2.append("Description:");
+                temp2 = temp2.append("Description: ");
                 temp2 = temp2.append(second.get("description").getAsString());
                 array2[i] = temp2.toString();
             } else {
