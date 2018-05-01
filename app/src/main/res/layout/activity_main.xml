@@ -12,6 +12,7 @@
     tools:context=".MainActivity">
 
     <!-- Login progress -->
+
     <ProgressBar
         android:id="@+id/bar"
         style="?android:attr/progressBarStyleLarge"
@@ -51,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Date"
+                android:hint="Date: YYYY-MM-DD"
                 android:inputType="date" />
 
             <Button
@@ -66,10 +67,22 @@
         </LinearLayout>
     </ScrollView>
 
-    <TextView
-        android:id="@+id/context"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="TextView" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:lineSpacingMultiplier="1.25"
+                android:id="@+id/context"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autoLink="web" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
